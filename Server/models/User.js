@@ -8,4 +8,6 @@ const userSchema = new mongoose.Schema({
     image: { type: String, required: true }
 })
 
-module.exports = mongoose.model('Users', userSchema, 'Users')
+const User = mongoose.model('User', userSchema)
+
+export default User;

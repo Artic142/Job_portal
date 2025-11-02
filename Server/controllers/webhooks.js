@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
-import User from "../models/User"
+import User from "../models/User.js"
 
-//api cotroller function to manage clerk user with database
+//api controller function to manage clerk user with database
 
 export const clerkWebhooks = async (req, res) => {
     try {
@@ -27,7 +27,7 @@ export const clerkWebhooks = async (req, res) => {
                 const userData = {
                     _id: data.id,
                     email: data.email_addresses[0].email_address,
-                    name: data.first_name + " " + last_name,
+                    name: data.first_name + " " + data.last_name,
                     image: data.image_url,
                     resume: ''
                 }
@@ -40,7 +40,7 @@ export const clerkWebhooks = async (req, res) => {
                 const userData = {
 
                     email: data.email_addresses[0].email_address,
-                    name: data.first_name + " " + last_name,
+                    name: data.first_name + " " + data.last_name,
                     image: data.image_url,
 
                 }
