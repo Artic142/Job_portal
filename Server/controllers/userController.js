@@ -1,0 +1,139 @@
+import Job from "../models/Job.js"
+import JobApplication from "../models/jobApplication.js"
+import User from "../models/User.js"
+import { v2 as cloudinary } from 'cloudinary'
+// import { requireAuth } from '@clerk/express';
+
+// app.get('/api/users/user', requireAuth(), getUserData);
+
+
+// get user data
+
+export const getUserData = async (req, res) => {
+  try {
+    const clerkId = req.auth.userId; // ✅ Clerk user ID from middleware
+    console.log("✅ Clerk user ID:", clerkId);
+
+    // Try finding existing user by _id
+    let user = await User.findById(clerkId);
+
+    // If not found, create new
+    if (!user) {
+      const sessionClaims = req.auth.sessionClaims || {};
+      const name =
+        sessionClaims.full_name ||
+        sessionClaims.first_name + " " + sessionClaims.last_name ||
+        "Unnamed User";
+      const email =
+        sessionClaims.email ||
+        sessionClaims.email_address ||
+        "noemail@unknown.com";
+      const image =
+        sessionClaims.image_url ||
+        "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+      user = await User.create({
+        _id: clerkId, // ✅ Pass _id explicitly
+        name,
+        email,
+        image,
+        resume: "",
+      });
+    }
+
+    res.json({ success: true, user });
+  } catch (err) {
+    console.error("❌ Error in getUserData:", err);
+    res.json({ success: false, message: err.message });
+  }
+};
+
+
+// apply for a job
+export const applyForJob = async (req, res) => {
+
+    const { jobId } = req.body
+
+    const userId = req.auth.userId;
+
+    try {
+
+        const isAlreadyApplied = await JobApplication.find({ jobId, userId })
+
+        if (isAlreadyApplied.length > 0) {
+            return res.json({ success: false, message: 'Already Applied' })
+        }
+
+        const jobData = await Job.findById(jobId)
+
+        if (!jobData) {
+            return res.json({ success: false, message: 'job not found' })
+        }
+
+        await JobApplication.create({
+            companyId: jobData.companyId,
+            userId,
+            jobId,
+            date: Date.now()
+        })
+
+        res.json({ success: true, message: 'Applied successfully' })
+
+    } catch (error) {
+        res.json({ success: false, message: error.message })
+    }
+
+}
+
+// get user applied applications
+export const getUserJobApplications = async (req, res) => {
+
+    try {
+
+        const userId = req.auth.userId;
+
+        const applications = await JobApplication.find({ userId })
+            .populate('companyId', 'name email image')
+            .populate('jobId', 'title description location category level salary')
+            .exec()
+
+
+        if (!applications) {
+            return res.json({ success: false, message: 'No job applications found for this user' })
+        }
+
+        return res.json({ success: true, applications })
+
+    } catch (error) {
+        res.json({ success: false, message: error.message })
+    }
+
+}
+
+// update user profile (resume)
+export const updateUserResume = async (req, res) => {
+
+    try {
+
+        const userId = req.auth.userId;
+
+        const resumeFile = req.file
+
+        const userData = await User.findById(userId)
+
+        if (resumeFile) {
+            const resumeUpload = await cloudinary.uploader.upload(resumeFile.path)
+
+            userData.resume = resumeUpload.secure_url
+
+        }
+
+        await userData.save()
+
+        return res.json({ success: true, message: 'Resume Updated' })
+
+    } catch (error) {
+        res.json({ success: false, message: error.message })
+    }
+
+}
