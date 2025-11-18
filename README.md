@@ -3,6 +3,14 @@
 A robust, scalable, and production-ready Job Portal Web Application developed using React.js, Node.js, Express.js, and MongoDB Atlas.
 This platform provides seamless interaction between Job Seekers, Recruiters with secure role-based access.
 
+# Project Details :
+
+**Project Vercel URL :**  https://job-portal-client-psi-rust.vercel.app
+
+**Github Repository URL :**  https://github.com/Artic142/Job_portal.git
+
+**Project Demo Video URL :**  
+
 # 🏗️ System Overview
 
 The Job Portal consists of two distinct roles, each with dedicated dashboards and capabilities:
@@ -121,37 +129,6 @@ Recruiters can manage job listings and handle applications seamlessly.
 * Nodemailer
 
 * Sentry
-
-# 📁 Project Structure
-job-portal/
-│
-├── backend/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   ├── utils/
-│   ├── config/
-│   └── server.js
-│
-├── frontend/
-│   ├── user/
-│   │   ├── register/
-│   │   ├── login/
-│   │   ├── profile/
-│   │   └── applications/
-│   │
-│   ├── recruiter/
-│   │   ├── login/
-│   │   ├── profile/
-│   │   ├── add-job/
-│   │   ├── manage-jobs/
-│   │   └── applications/
-│   │
-│   ├── shared-components/
-│   └── App.js
-│
-└── README.md
 
 # 🔒 Authentication & Authorization
 
