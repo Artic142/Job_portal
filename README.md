@@ -9,7 +9,7 @@ This platform provides seamless interaction between Job Seekers, Recruiters with
 
 **Github Repository URL :**  https://github.com/Artic142/Job_portal.git
 
-**Project Demo Video URL :**  
+**Project Demo Video URL :**  https://drive.google.com/file/d/1ii7N6v-kMOnw61qlQrByJUybAwEBqH_7/view?usp=drivesdk
 
 # 🏗️ System Overview
 
