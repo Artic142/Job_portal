@@ -1,4 +1,4 @@
-# 🧑‍💼 Job Portal Web Application
+# 👩‍💼 Job Portal Web Application
 
 A robust, scalable, and production-ready Job Portal Web Application developed using React.js, Node.js, Express.js, and MongoDB Atlas.
 This platform provides seamless interaction between Job Seekers, Recruiters with secure role-based access.
